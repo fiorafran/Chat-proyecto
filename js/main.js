@@ -1,5 +1,4 @@
-/*---------- MODAL ----------*/
-var myModal = new bootstrap.Modal(document.getElementById('modalRegistro'), {
+const myModal = new bootstrap.Modal(document.getElementById('modalRegistro'), {
   keyboard: false,
   backdrop: 'static'
 });
