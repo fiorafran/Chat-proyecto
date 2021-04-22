@@ -8,3 +8,8 @@ Firebase
 Firebase en un momento te pide ejecutar este comando -> npm install -g firebase-tools <- en la consola.
 
 Este mensaje esta acá de guía de lo que hice, más adelante lo borro.
+
+
+# Documentación
+
+Firebase auth: https://firebase.google.com/docs/auth/web/start?authuser=0

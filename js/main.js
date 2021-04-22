@@ -1,5 +1,6 @@
-var myModal = new bootstrap.Modal(document.getElementById('modalRegistro'), {
-  keyboard: false
+const myModal = new bootstrap.Modal(document.getElementById('modalRegistro'), {
+  keyboard: false,
+  backdrop: 'static'
 });
 
 const signUp = () => {
