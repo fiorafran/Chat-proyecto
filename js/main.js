@@ -1,7 +1,11 @@
+/*---------- MODAL ----------*/
 var myModal = new bootstrap.Modal(document.getElementById('modalRegistro'), {
-  keyboard: false
+  keyboard: false,
+  backdrop: 'static'
 });
 
+
+/*---------- REGISTRO MODAL ----------*/
 const signUp = () => {
 	email = document.getElementById('registroCorreo').value;
 	password = document.getElementById('registroContraseña').value;
@@ -16,16 +20,11 @@ const signUp = () => {
     	myModal.hide();
   	})
   	.catch((error) => {
-    	var errorCode = error.code;
-    	var errorMessage = error.message;
+    	let errorCode = error.code;
+    	let errorMessage = error.message;
     	alert(errorMessage+' '+errorCode);
   	});
 }
-
-document.getElementById('btnIniciar').addEventListener('click', function(){
-    console.log("Probando get element");
-});
-
 
 /*---------- REGISTRO ----------*/
 document.getElementById('btnRegistrar').addEventListener('click', signUp);
@@ -34,5 +33,29 @@ document.getElementById('btnCancelar').addEventListener('click', ()=>{
 	document.getElementById('registroCorreo').value = "";
 	document.getElementById('registroContraseña').value = "";
 })
+
+
+/*---------- LOGIN AUTENTICACIÓN ----------*/
+document.getElementById('btnIniciar').addEventListener('click', function(){
+
+	let email = document.getElementById('inputCorreo').value;
+	let password = document.getElementById('inputContraseña').value;
+
+	firebase.auth().signInWithEmailAndPassword(email, password)
+	.then((userCredential) => {
+		// Signed in
+		let user = userCredential.user;
+		
+		// setTimeout(() => {
+		
+		// }, 2000);
+	})
+	.catch((error) => {
+		let errorCode = error.code;
+		let errorMessage = error.message;
+	});
+})
+
+
 
 
