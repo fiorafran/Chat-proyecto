@@ -1,8 +1,10 @@
+import { router } from './router/chat.routes.js';
+
+
 const myModal = new bootstrap.Modal(document.getElementById('modalRegistro'), {
   keyboard: false,
   backdrop: 'static'
 });
-
 
 /*---------- REGISTRO MODAL ----------*/
 const signUp = () => {
@@ -44,17 +46,21 @@ document.getElementById('btnIniciar').addEventListener('click', function(){
 	.then((userCredential) => {
 		// Signed in
 		let user = userCredential.user;
-		
-		// setTimeout(() => {
-		
-		// }, 2000);
+		console.log('usuario iniciado')
 	})
 	.catch((error) => {
 		let errorCode = error.code;
 		let errorMessage = error.message;
+		console.log(errorMessage+' '+errorCode);
 	});
 })
 
+/*---------- RUTAS ----------*/
 
+const Ruta = document.querySelector('#Ruta');
 
+router(window.location.hash);
 
+window.addEventListener('hashchange', ()=>{
+	router(window.location.hash);
+})

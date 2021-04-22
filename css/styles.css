@@ -1,0 +1,36 @@
+.box-ventana {
+    border: 1px solid grey;
+    width: 100%;
+    height: 70vh;
+    background-color: rgb(37, 37, 44);
+
+}
+
+.box-ventana-chat{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid grey;
+    width: 100%;
+    height: 54vh;
+    padding: 5px;
+    background-color: rgb(195, 204, 201);
+}
+/**/
+
+/ ESTILOS PARA LA BARRA DE CHAT */
+.barra-chat{
+    margin-left: 0.2px;
+    margin-right: 0.2px;
+
+}
+
+#inputChat{
+    width: 100%;
+    height: 5vh;
+}
+
+#btnEnviarMensaje{
+    width: 100%;
+    height: 5vh;
+    text-align: center;
+}
