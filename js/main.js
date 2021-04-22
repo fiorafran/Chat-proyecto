@@ -46,8 +46,9 @@ document.getElementById('btnIniciar').addEventListener('click', function(){
 		// Signed in
 		let user = userCredential.user;
 		
+		// cargar página chat.html pasando 1 segundo
 		// setTimeout(() => {
-		
+			
 		// }, 2000);
 	})
 	.catch((error) => {
