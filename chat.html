@@ -11,7 +11,51 @@
 </head>
 <body>
 
-    <h1>Sala de Chat</h1>
+    <div class="container mt-5">
+         
+      <!--INICIO CONTENEDOR PRINCIPAL -->
+     <div class="row"> 
+
+      <!--COLUMNA 1-->
+      <div class="col-sm-8 box-ventanaG">
+        <h1 style="color: white;">SALA DE CHAT</h1>
+      
+        <!--En este contenedor se irían mostrando los mensajes -->
+        <div class="box-ventana-chat"> Ventana de chat</div> 
+        
+        <!--Barra de chat -->  
+        <div class="row barra-chat">
+            <div class="col-sm-10">
+              <input type="text" id="inputChat" placeholder="Escribir mensaje...">
+            </div>
+            <div class="col-sm-2 ">
+              <button class="btn btn-primary" id="btnEnviarMensaje">Enviar</button>
+            </div>
+        </div>
+          
+        
+      </div>
+      
+      <!--COLUMNA 2-->
+      <div class="col-sm-4 box-ventanaC">       
+        <h1 style="color: white;"> Usuarios Online</h1>
+      
+       <div class="columna-usuarios">
+         <p>se genera una lista con los usuarios conectados</p>
+         <p>se genera una lista con los usuarios conectados</p>
+         <p>se genera una lista con los usuarios conectados</p>
+         <p>se genera una lista con los usuarios conectados</p>
+         <p>se genera una lista con los usuarios conectados</p>
+         <p>se genera una lista con los usuarios conectados</p>
+       </div>
+
+     </div>
+
+     </div>
+     <!--FIN CONTENEDOR PRINCIPAL-->
+
+    </div>
+    
     
 </body>
 <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -41,4 +85,5 @@ integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9E
 crossorigin="anonymous"></script>
 <!--JS MAIN-->
 <script src="js/main.js"></script>
+
 </html>

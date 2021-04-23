@@ -48,7 +48,6 @@ document.getElementById("btnIniciar").addEventListener("click", function () {
 			// Signed in
 			let user = userCredential.user;
 			console.log("usuario iniciado");
-
 			document.location.href = "index.html#/chat";
 			window.addEventListener("hashchange", () => {
 				router(window.location.hash);
