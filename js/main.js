@@ -46,7 +46,8 @@ document.getElementById('btnIniciar').addEventListener('click', function(){
 	.then((userCredential) => {
 		// Signed in
 		let user = userCredential.user;
-		console.log('usuario iniciado')
+		
+		
 	})
 	.catch((error) => {
 		let errorCode = error.code;

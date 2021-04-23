@@ -1,9 +1,25 @@
-.box-ventana {
+.box-ventanaG {
     border: 1px solid grey;
     width: 100%;
     height: 70vh;
     background-color: rgb(37, 37, 44);
+    
+}
 
+.box-ventanaC{
+    border: 1px solid grey;
+    width: 100%;
+    height: 70vh;
+    background-color: rgb(37, 37, 44);    
+    
+}
+
+.columna-usuarios{
+    background-color:rgb(195, 204, 201);
+    margin-top: 10px;
+    padding: 5px;
+    height: 54vh;
+    padding: 5px;
 }
 
 .box-ventana-chat{
@@ -15,9 +31,7 @@
     padding: 5px;
     background-color: rgb(195, 204, 201);
 }
-/**/
 
-/ ESTILOS PARA LA BARRA DE CHAT */
 .barra-chat{
     margin-left: 0.2px;
     margin-right: 0.2px;
@@ -34,3 +48,5 @@
     height: 5vh;
     text-align: center;
 }
+
+
