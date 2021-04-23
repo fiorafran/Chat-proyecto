@@ -1,23 +1,22 @@
 import Chat from '../../chat.js';
 
-let content = document.getElementById('nuevo');
+let content = document.getElementById('root');
 
 const router = (route) => {
     content.innerHTML = '';
 
     switch(route) {
         case '':
-            console.log('Inicio');
+            return console.log('Inicio');
+            /*{
+            return content.append(Chat());
+            }*/
+        case '#/':
+            return console.log('Inicio');
+        case '#/chat':
             {
             return content.append(Chat());
             }
-            case '#/':
-            console.log('Inicio');
-            {
-            return content.append(Chat());
-            }
-        case '#/Ruta':
-            return  console.log('Ruta');
         default: 
             return console.log('404');
     }
