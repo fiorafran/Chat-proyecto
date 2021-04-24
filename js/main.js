@@ -1,5 +1,8 @@
 import { router } from "./router/chat.routes.js";
 
+const db = firebase.firestore();
+const userCol = db.collection("users");
+
 const myModal = new bootstrap.Modal(document.getElementById("modalRegistro"), {
 	keyboard: false,
 	backdrop: "static",
@@ -7,8 +10,8 @@ const myModal = new bootstrap.Modal(document.getElementById("modalRegistro"), {
 
 /*---------- REGISTRO MODAL ----------*/
 const signUp = () => {
-	email = document.getElementById("registroCorreo").value;
-	password = document.getElementById("registroContraseña").value;
+	let email = document.getElementById("registroCorreo").value;
+	let password = document.getElementById("registroContraseña").value;
 
 	firebase
 		.auth()
@@ -17,9 +20,16 @@ const signUp = () => {
 			// Signed in
 			var user = userCredential.user;
 			alert("Registro correcto " + user);
-			document.getElementById("registroCorreo").value = "";
-			document.getElementById("registroContraseña").value = "";
-			myModal.hide();
+			userCol.doc(email).set({usuario: 'fafafa'})
+			.then(() => {
+			    console.log("Document successfully written!");
+				document.getElementById("registroCorreo").value = "";
+				document.getElementById("registroContraseña").value = "";
+				myModal.hide();
+			})
+			.catch((error) => {
+			    console.error("Error writing document: ", error);
+			});
 		})
 		.catch((error) => {
 			let errorCode = error.code;
