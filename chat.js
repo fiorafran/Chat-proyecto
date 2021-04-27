@@ -39,6 +39,6 @@ export default () => {
 
 	const divElement = document.createElement('div');
 	divElement.innerHTML = vista;
-
+  console.log("chat");
 	return divElement;
 }
