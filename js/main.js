@@ -64,7 +64,17 @@ document.getElementById("btnIniciar").addEventListener("click", function () {
 			console.log("usuario iniciado");
 			document.location.href = "index.html#/chat";
 			window.addEventListener("hashchange", () => {
-				router(window.location.hash);
+				router(window.location.hash);				
+			});
+			userCol.doc(email).update({
+			    estado: true
+			})
+			.then(() => {
+			    console.log("Document successfully updated!");
+			})
+			.catch((error) => {
+			    // The document probably doesn't exist.
+			    console.error("Error updating document: ", error);
 			});
 		})
 		.catch((error) => {
@@ -73,6 +83,16 @@ document.getElementById("btnIniciar").addEventListener("click", function () {
 			console.log(errorMessage + " " + errorCode);
 		});
 });
+
+/*----CONSULTA USUSARIOS-----*/
+
+db.collection("users").where("estado", "==", true)
+    .onSnapshot((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(doc.data().usuario);
+        });
+    });
+
 
 /*---------- RUTAS ----------*/
 

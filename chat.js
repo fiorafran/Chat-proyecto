@@ -25,12 +25,7 @@ export default () => {
         <div class="col-sm-4 box-ventanaC">
           <h1 style="color: white">Usuarios Online</h1>
           <div class="columna-usuarios">
-            <p>se genera una lista con los usuarios conectados</p>
-            <p>se genera una lista con los usuarios conectados</p>
-            <p>se genera una lista con los usuarios conectados</p>
-            <p>se genera una lista con los usuarios conectados</p>
-            <p>se genera una lista con los usuarios conectados</p>
-            <p>se genera una lista con los usuarios conectados</p>
+            
           </div>
         </div>
       </div>
