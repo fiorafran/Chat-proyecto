@@ -12,6 +12,7 @@ const myModal = new bootstrap.Modal(document.getElementById("modalRegistro"), {
 const signUp = () => {
 	let email = document.getElementById("registroCorreo").value;
 	let password = document.getElementById("registroContraseña").value;
+	let nickname = document.getElementById("registroNickname").value;
 
 	firebase
 		.auth()
@@ -20,7 +21,10 @@ const signUp = () => {
 			// Signed in
 			var user = userCredential.user;
 			alert("Registro correcto " + user);
-			userCol.doc(email).set({usuario: 'fafafa'})
+			userCol.doc(email).set({
+				usuario: nickname,
+				estado: false
+			})
 			.then(() => {
 			    console.log("Document successfully written!");
 				document.getElementById("registroCorreo").value = "";
