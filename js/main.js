@@ -1,5 +1,7 @@
 import { router } from "./router/chat.routes.js";
 
+document.location.href = "index.html#/";
+
 const db = firebase.firestore();
 const userCol = db.collection("users");
 
@@ -86,12 +88,12 @@ document.getElementById("btnIniciar").addEventListener("click", function () {
 
 /*----CONSULTA USUSARIOS-----*/
 
-db.collection("users").where("estado", "==", true)
+/*db.collection("users").where("estado", "==", true)
     .onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             console.log(doc.data().usuario);
         });
-    });
+    });*/
 
 
 /*---------- RUTAS ----------*/
