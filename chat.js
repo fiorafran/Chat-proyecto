@@ -5,7 +5,7 @@ export default () => {
         <div class="col-sm-8 box-ventanaG">
           <h1 style="color: white" id="nombreUser"></h1>
 
-          <div class="box-ventana-chat"></div>
+          <div class="box-ventana-chat" id="ventanaChat"></div>
 
           <div class="row barra-chat">
             <div class="col-sm-10">

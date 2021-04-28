@@ -4,6 +4,7 @@ document.location.href = "index.html#/";
 
 const db = firebase.firestore();
 const userCol = db.collection("users");
+const chatMainCol = db.collection("chatMain");
 
 const myModal = new bootstrap.Modal(document.getElementById("modalRegistro"), {
 	keyboard: false,
@@ -29,6 +30,11 @@ const signUp = () => {
 					usuario: nickname,
 					estado: false,
 				})
+			chatMainCol
+			.doc(email)
+			.set({
+				mensaje: "Bienvenido " + nickname 
+			})
 				.then(() => {
 					console.log("Document successfully written!");
 					document.getElementById("registroCorreo").value = "";
@@ -89,6 +95,21 @@ document.getElementById("btnIniciar").addEventListener("click", function () {
 			console.log(errorMessage + " " + errorCode);
 		});
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*----CONSULTA USUSARIOS-----*/
 

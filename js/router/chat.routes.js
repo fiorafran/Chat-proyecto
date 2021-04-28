@@ -4,6 +4,8 @@ import Index from "../../index.js";
 let content = document.getElementById("root");
 const db = firebase.firestore();
 const userCol = db.collection("users");
+const chatMainCol = db.collection("chatMain");
+
 
 const router = (route, emailUser) => {
     content.innerHTML = "";
@@ -85,10 +87,32 @@ const router = (route, emailUser) => {
                         });
                 });
 
-            break;
-        default:
-            return console.log("404");
-    }
-};
+            /*---MENSAJES DEL CHAT GENERAL*/
+            
+            document.getElementById("btnEnviarMensaje").addEventListener("click", function () {
+            let mensaje = document.getElementById("inputChat").value;
+
+                    chatMainCol
+                        .doc(emailUser)
+                            .update({
+                                mensaje: firebase.firestore.FieldValue.arrayUnion(mensaje)
+                            })
+                    });
+
+            
+            chatMainCol.onSnapshot((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log(doc.data().mensaje);
+                    const mensajesEnviados = document.createElement("mensajesEnviados");
+                    mensajesEnviados.innerHTML = "<p>" + doc.data().mensaje + "</p>";
+                    document.getElementById("ventanaChat").append(mensajesEnviados);
+                });
+            });
+
+                            break;
+                        default:
+                            return console.log("404");
+                    }
+                };
 
 export { router };
