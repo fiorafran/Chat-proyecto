@@ -1,11 +1,11 @@
 export default () => {
-	const vista = `
-		<div class="container mt-5">
+  const vista = `
+    <div class="container mt-5">
       <div class="row">
         <div class="col-sm-8 box-ventanaG">
-          <h1 style="color: white">SALA DE CHAT</h1>
+          <h1 style="color: white" id="nombreUser"></h1>
 
-          <div class="box-ventana-chat">Ventana de chat</div>
+          <div class="box-ventana-chat"></div>
 
           <div class="row barra-chat">
             <div class="col-sm-10">
@@ -25,15 +25,22 @@ export default () => {
         <div class="col-sm-4 box-ventanaC">
           <h1 style="color: white">Usuarios Online</h1>
           <div class="columna-usuarios">
-            
+          <ul id="usuariosConectados">
+          
+          </ul>            
           </div>
+          <div class="col">
+              <button class="btn btn-primary" id="btnLogOut">
+                Salir
+              </button>
+            </div>
         </div>
       </div>
     </div>
-	`;
+  `;
 
-	const divElement = document.createElement('div');
-	divElement.innerHTML = vista;
+  const divElement = document.createElement("div");
+  divElement.innerHTML = vista;
   console.log("chat");
-	return divElement;
-}
+  return divElement;
+};

@@ -23,19 +23,21 @@ const signUp = () => {
 			// Signed in
 			var user = userCredential.user;
 			alert("Registro correcto " + user);
-			userCol.doc(email).set({
-				usuario: nickname,
-				estado: false
-			})
-			.then(() => {
-			    console.log("Document successfully written!");
-				document.getElementById("registroCorreo").value = "";
-				document.getElementById("registroContraseña").value = "";
-				myModal.hide();
-			})
-			.catch((error) => {
-			    console.error("Error writing document: ", error);
-			});
+			userCol
+				.doc(email)
+				.set({
+					usuario: nickname,
+					estado: false,
+				})
+				.then(() => {
+					console.log("Document successfully written!");
+					document.getElementById("registroCorreo").value = "";
+					document.getElementById("registroContraseña").value = "";
+					myModal.hide();
+				})
+				.catch((error) => {
+					console.error("Error writing document: ", error);
+				});
 		})
 		.catch((error) => {
 			let errorCode = error.code;
@@ -66,18 +68,20 @@ document.getElementById("btnIniciar").addEventListener("click", function () {
 			console.log("usuario iniciado");
 			document.location.href = "index.html#/chat";
 			window.addEventListener("hashchange", () => {
-				router(window.location.hash);				
+				router(window.location.hash, email);
 			});
-			userCol.doc(email).update({
-			    estado: true
-			})
-			.then(() => {
-			    console.log("Document successfully updated!");
-			})
-			.catch((error) => {
-			    // The document probably doesn't exist.
-			    console.error("Error updating document: ", error);
-			});
+			userCol
+				.doc(email)
+				.update({
+					estado: true,
+				})
+				.then(() => {
+					console.log("Document successfully updated!");
+				})
+				.catch((error) => {
+					// The document probably doesn't exist.
+					console.error("Error updating document: ", error);
+				});
 		})
 		.catch((error) => {
 			let errorCode = error.code;
@@ -94,7 +98,6 @@ document.getElementById("btnIniciar").addEventListener("click", function () {
             console.log(doc.data().usuario);
         });
     });*/
-
 
 /*---------- RUTAS ----------*/
 
