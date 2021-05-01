@@ -39,6 +39,7 @@ const router = (route, emailUser) => {
 
             /*---CONSULTA USUARIOS CONECTADOS*/
             userCol.where("estado", "==", true).onSnapshot((querySnapshot) => {
+                document.getElementById("usuariosConectados").innerHTML = "";
                 querySnapshot.forEach((doc) => {
                     console.log(doc.data().usuario);
                     const li = document.createElement("li");
@@ -88,31 +89,31 @@ const router = (route, emailUser) => {
                 });
 
             /*---MENSAJES DEL CHAT GENERAL*/
-            
             document.getElementById("btnEnviarMensaje").addEventListener("click", function () {
-            let mensaje = document.getElementById("inputChat").value;
+                let mensaje = document.getElementById("inputChat").value;
+                let dato = {
+                    usuario: emailUser,
+                    msj: mensaje,
+                    }
 
-                    chatMainCol
-                        .doc(emailUser)
-                            .update({
-                                mensaje: firebase.firestore.FieldValue.arrayUnion(mensaje)
-                            })
-                    });
-
-            
+                chatMainCol.doc("chat-general")
+                    .update({
+                        mensajes: firebase.firestore.FieldValue.arrayUnion(dato)
+                    })
+            });
             chatMainCol.onSnapshot((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    console.log(doc.data().mensaje);
+                    console.log(doc.data().mensajes);
                     const mensajesEnviados = document.createElement("mensajesEnviados");
-                    mensajesEnviados.innerHTML = "<p>" + doc.data().mensaje + "</p>";
+                    mensajesEnviados.innerHTML = "<p>" + doc.data().mensajes + "</p>";
                     document.getElementById("ventanaChat").append(mensajesEnviados);
                 });
             });
 
-                            break;
-                        default:
-                            return console.log("404");
-                    }
-                };
+        break;
+        default:
+            return console.log("404");
+    }
+};
 
 export { router };
