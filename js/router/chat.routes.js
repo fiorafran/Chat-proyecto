@@ -93,10 +93,10 @@ const router = (route, emailUser) => {
 
 
             /*---MENSAJES DEL CHAT GENERAL*/
-            
             document.getElementById("btnEnviarMensaje").addEventListener("click", function () {
                 let mensaje = document.getElementById("inputChat").value;
                 let dato = {
+<<<<<<< HEAD
                     id: emailUser,
                     mensaje: mensaje,
                     hora: firebase.firestore.Timestamp.fromDate(new Date())
@@ -114,13 +114,30 @@ const router = (route, emailUser) => {
                     const mensajeEnviados = document.createElement("mensajeEnviados");
                     mensajeEnviados.innerHTML = "<p>" + doc.data().mensaje + "</p>";
                     document.getElementById("ventanaChat").append(mensajeEnviados);
+=======
+                    usuario: emailUser,
+                    msj: mensaje,
+                    }
+
+                chatMainCol.doc("chat-general")
+                    .update({
+                        mensajes: firebase.firestore.FieldValue.arrayUnion(dato)
+                    })
+            });
+            chatMainCol.onSnapshot((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log(doc.data().mensajes);
+                    const mensajesEnviados = document.createElement("mensajesEnviados");
+                    mensajesEnviados.innerHTML = "<p>" + doc.data().mensajes + "</p>";
+                    document.getElementById("ventanaChat").append(mensajesEnviados);
+>>>>>>> c50555fb99d0ad18ec3db582b42b0c0548bfd228
                 });
             });
 
-                            break;
-                        default:
-                            return console.log("404");
-                    }
-                };
+        break;
+        default:
+            return console.log("404");
+    }
+};
 
 export { router };
