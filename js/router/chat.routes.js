@@ -6,8 +6,7 @@ const db = firebase.firestore();
 const userCol = db.collection("users");
 const chatMainCol = db.collection("chatMain");
 
-
-const router = (route, emailUser) => {
+const router = (route, emailUser, nickname) => {
     content.innerHTML = "";
 
     switch (route) {
@@ -37,7 +36,7 @@ const router = (route, emailUser) => {
                     console.log("Error getting document:", error);
                 });
 
-            /*---CONSULTA USUARIOS CONECTADOS*/
+            /*---CONSULTA USUARIOS CONECTADOS---*/
             userCol.where("estado", "==", true).onSnapshot((querySnapshot) => {
                 document.getElementById("usuariosConectados").innerHTML = "";
                 querySnapshot.forEach((doc) => {
@@ -47,7 +46,6 @@ const router = (route, emailUser) => {
                     document.getElementById("usuariosConectados").append(li);
                 });
             });
-
             /*-----LOGOUT------*/
             document
                 .getElementById("btnLogOut")
@@ -87,30 +85,47 @@ const router = (route, emailUser) => {
                             console.log(errorMessage + " " + errorCode);
                         });
                 });
-
             /*---MENSAJES DEL CHAT GENERAL*/
-            document.getElementById("btnEnviarMensaje").addEventListener("click", function () {
-                let mensaje = document.getElementById("inputChat").value;
-                let dato = {
-                    usuario: emailUser,
-                    msj: mensaje,
-                    }
 
-                chatMainCol.doc("chat-general")
-                    .update({
-                        mensajes: firebase.firestore.FieldValue.arrayUnion(dato)
-                    })
-            });
-            chatMainCol.onSnapshot((querySnapshot) => {
+            document
+                .getElementById("btnEnviarMensaje")
+                .addEventListener("click", function () {
+                    let mensaje = document.getElementById("inputChat").value;
+                    let dato = {
+                        id: emailUser,
+                        mensaje: mensaje,
+                        hora: firebase.firestore.Timestamp.fromDate(new Date()),
+                    };
+
+                    chatMainCol.add(dato);
+                });
+
+            let chatcito = chatMainCol.orderBy("hora", "asc");
+            chatcito.onSnapshot((querySnapshot) => {
+                document.getElementById("ventanaChat").innerHTML = "";
                 querySnapshot.forEach((doc) => {
-                    console.log(doc.data().mensajes);
-                    const mensajesEnviados = document.createElement("mensajesEnviados");
-                    mensajesEnviados.innerHTML = "<p>" + doc.data().mensajes + "</p>";
-                    document.getElementById("ventanaChat").append(mensajesEnviados);
+                    console.log(doc.data());
+                    const mensajeEnviados = document.createElement(
+                        "mensajeEnviados"
+                    );
+
+                    let obtenerNanos = doc.data().hora.nanoseconds;
+                    let obtenerSecs = doc.data().hora.seconds;
+                    let nts = obtenerNanos/1000000000;
+                    let obtenerHoras = nts + obtenerSecs;
+                    console.log(obtenerHoras);                                                         
+                    let fechayhora = new Date(obtenerHoras * 1000);
+                    console.log(fechayhora);
+
+                    mensajeEnviados.innerHTML =
+                        "<p>" + doc.data().mensaje + "</p>";
+                    document
+                        .getElementById("ventanaChat")
+                        .append(mensajeEnviados);
                 });
             });
 
-        break;
+            break;
         default:
             return console.log("404");
     }
