@@ -20,6 +20,7 @@ const router = (route, emailUser) => {
         case "#/chat":
             content.append(Chat());
 
+
             /*---CONSULTA USUARIO---*/
             userCol
                 .doc(emailUser)
@@ -37,8 +38,10 @@ const router = (route, emailUser) => {
                     console.log("Error getting document:", error);
                 });
 
-            /*---CONSULTA USUARIOS CONECTADOS*/
+
+            /*---CONSULTA USUARIOS CONECTADOS---*/
             userCol.where("estado", "==", true).onSnapshot((querySnapshot) => {
+                document.getElementById("usuariosConectados").innerHTML = "";
                 querySnapshot.forEach((doc) => {
                     console.log(doc.data().usuario);
                     const li = document.createElement("li");
@@ -46,6 +49,7 @@ const router = (route, emailUser) => {
                     document.getElementById("usuariosConectados").append(li);
                 });
             });
+
 
             /*-----LOGOUT------*/
             document
@@ -87,25 +91,29 @@ const router = (route, emailUser) => {
                         });
                 });
 
+
             /*---MENSAJES DEL CHAT GENERAL*/
             
             document.getElementById("btnEnviarMensaje").addEventListener("click", function () {
-            let mensaje = document.getElementById("inputChat").value;
+                let mensaje = document.getElementById("inputChat").value;
+                let dato = {
+                    id: emailUser,
+                    mensaje: mensaje,
+                    hora: firebase.firestore.Timestamp.fromDate(new Date())
+                    }
 
-                    chatMainCol
-                        .doc(emailUser)
-                            .update({
-                                mensaje: firebase.firestore.FieldValue.arrayUnion(mensaje)
-                            })
-                    });
+                chatMainCol
+                    .add(dato)
+            });
 
-            
-            chatMainCol.onSnapshot((querySnapshot) => {
+            let chatcito = chatMainCol.orderBy("hora", "asc");
+            chatcito.onSnapshot((querySnapshot) => {
+            document.getElementById("ventanaChat").innerHTML = "";    
                 querySnapshot.forEach((doc) => {
                     console.log(doc.data().mensaje);
-                    const mensajesEnviados = document.createElement("mensajesEnviados");
-                    mensajesEnviados.innerHTML = "<p>" + doc.data().mensaje + "</p>";
-                    document.getElementById("ventanaChat").append(mensajesEnviados);
+                    const mensajeEnviados = document.createElement("mensajeEnviados");
+                    mensajeEnviados.innerHTML = "<p>" + doc.data().mensaje + "</p>";
+                    document.getElementById("ventanaChat").append(mensajeEnviados);
                 });
             });
 

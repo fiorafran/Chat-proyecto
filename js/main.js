@@ -30,11 +30,6 @@ const signUp = () => {
 					usuario: nickname,
 					estado: false,
 				})
-			chatMainCol
-			.doc(email)
-			.set({
-				mensaje: "Bienvenido " + nickname 
-			})
 				.then(() => {
 					console.log("Document successfully written!");
 					document.getElementById("registroCorreo").value = "";
