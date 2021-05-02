@@ -30,7 +30,7 @@ const signUp = () => {
 					usuario: nickname,
 					estado: false,
 				})
-			chatMainCol
+			/*chatMainCol
 			.doc(email)
 			.set({
 				mensaje: "Bienvenido " + nickname 
@@ -43,7 +43,7 @@ const signUp = () => {
 				})
 				.catch((error) => {
 					console.error("Error writing document: ", error);
-				});
+				});*/
 		})
 		.catch((error) => {
 			let errorCode = error.code;
