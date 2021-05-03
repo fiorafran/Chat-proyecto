@@ -87,6 +87,14 @@ const router = (route, emailUser, nickname) => {
                 });
             /*---MENSAJES DEL CHAT GENERAL*/
 
+            /* SCROLL DIV */
+            function scrollDiv(){
+             
+                var div = document.getElementById('ventanaChat');
+                div.scrollTop = '9999';
+             
+            }
+
             document
                 .getElementById("btnEnviarMensaje")
                 .addEventListener("click", function () {
@@ -98,6 +106,7 @@ const router = (route, emailUser, nickname) => {
                     };
 
                     chatMainCol.add(dato);
+                    document.getElementById("inputChat").value = "";
                 });
 
             let chatcito = chatMainCol.orderBy("hora", "asc");
@@ -112,18 +121,25 @@ const router = (route, emailUser, nickname) => {
                     let obtenerNanos = doc.data().hora.nanoseconds;
                     let obtenerSecs = doc.data().hora.seconds;
                     let nts = obtenerNanos/1000000000;
-                    let obtenerHoras = nts + obtenerSecs;
-                    console.log(obtenerHoras);                                                         
+                    let obtenerHoras = nts + obtenerSecs;                                                       
                     let fechayhora = new Date(obtenerHoras * 1000);
-                    console.log(fechayhora);
+                    let stringFechaHora = fechayhora.toString();
+                    stringFechaHora = stringFechaHora.replace(/Mon|May|03|2021|GMT-0300| |hora estándar de Argentina|/g, "").replace("(", "").replace(")", "");
+                    console.log(stringFechaHora);
 
                     mensajeEnviados.innerHTML =
-                        "<p>" + doc.data().mensaje + "</p>";
+                        `<div>
+                            <p>` + doc.data().id + `</p>
+                            <p>` + doc.data().mensaje + `</p>
+                            <p>` + doc.data().hora.Time + `</p>
+                        </div>`;
                     document
                         .getElementById("ventanaChat")
                         .append(mensajeEnviados);
+                    scrollDiv();
                 });
             });
+
 
             break;
         default:

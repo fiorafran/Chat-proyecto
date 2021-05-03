@@ -1,7 +1,12 @@
+.alt {
+    height: 100vh;
+    max-width: 100%!important;
+}
+
 .box-ventanaG {
     border: 1px solid grey;
     width: 100%;
-    height: 70vh;
+    height: 100vh;
     background-color: rgb(37, 37, 44);
     
 }
@@ -9,7 +14,7 @@
 .box-ventanaC{
     border: 1px solid grey;
     width: 100%;
-    height: 70vh;
+    height: 100vh;
     background-color: rgb(37, 37, 44);    
     
 }
@@ -18,7 +23,7 @@
     background-color:rgb(195, 204, 201);
     margin-top: 10px;
     padding: 5px;
-    height: 54vh;
+    height: 80vh;
     padding: 5px;
 }
 
@@ -27,9 +32,10 @@
     margin-bottom: 10px;
     border: 1px solid grey;
     width: 100%;
-    height: 54vh;
+    height: 80vh;
     padding: 5px;
     background-color: rgb(195, 204, 201);
+    /* overflow-y: scroll; */
 }
 
 .barra-chat{

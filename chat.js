@@ -1,11 +1,11 @@
 export default () => {
   const vista = `
-    <div class="container mt-5">
+    <div class="container m-0 alt">
       <div class="row">
-        <div class="col-sm-8 box-ventanaG">
+        <div class="col-8 box-ventanaG">
           <h1 style="color: white" id="nombreUser"></h1>
 
-          <div class="box-ventana-chat" id="ventanaChat"></div>
+          <div class="overflow-auto box-ventana-chat" id="ventanaChat"></div>
 
           <div class="row barra-chat">
             <div class="col-sm-10">
@@ -15,14 +15,14 @@ export default () => {
                 placeholder="Escribir mensaje..."
               />
             </div>
-            <div class="col-sm-2">
+            <div class="col-2">
               <button class="btn btn-primary" id="btnEnviarMensaje">
                 Enviar
               </button>
             </div>
           </div>
         </div>
-        <div class="col-sm-4 box-ventanaC">
+        <div class="col box-ventanaC">
           <h1 style="color: white">Usuarios Online</h1>
           <div class="columna-usuarios">
           <ul id="usuariosConectados">
@@ -30,7 +30,7 @@ export default () => {
           </ul>            
           </div>
           <div class="col">
-              <button class="btn btn-primary" id="btnLogOut">
+              <button class="btn btn-danger" id="btnLogOut">
                 Salir
               </button>
             </div>
