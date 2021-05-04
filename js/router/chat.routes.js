@@ -5,7 +5,7 @@ let content = document.getElementById("root");
 const db = firebase.firestore();
 const userCol = db.collection("users");
 const chatMainCol = db.collection("chatMain");
-var nick;
+let nick, lastMsjId;
 
 const router = (route, emailUser) => {
     content.innerHTML = "";
@@ -111,6 +111,8 @@ const router = (route, emailUser) => {
             chatcito.onSnapshot((querySnapshot) => {
                 document.getElementById("ventanaChat").innerHTML = "";
                 querySnapshot.forEach((doc) => {
+
+
                     console.log(doc.data());
                     const mensajeEnviados = document.createElement(
                         "mensajeEnviados"
@@ -122,19 +124,30 @@ const router = (route, emailUser) => {
                     let obtenerHoras = nts + obtenerSecs;                                                       
                     let fechayhora = new Date(obtenerHoras * 1000);
                     let stringFechaHora = fechayhora.toString();
-                    stringFechaHora = stringFechaHora.replace(/Mon|May|03|2021|GMT-0300| |hora estándar de Argentina|/g, "").replace("(", "").replace(")", "");
+                    stringFechaHora = stringFechaHora.replace(/Mon|May|03|2021|GMT-0300|hora estándar de Argentina|/g, "").replace("(", "").replace(")", "");
                     console.log(stringFechaHora);
 
-                    mensajeEnviados.innerHTML =
-                        `<div class="containerMensaje">
-                            <p class="idMensaje">` + doc.data().id + `</p>
-                            <p class="Mensaje">` + doc.data().mensaje + `</p>
-                            <p class="timeMensaje">` + stringFechaHora + `</p>
-                        </div>`;
-                    document
-                        .getElementById("ventanaChat")
-                        .append(mensajeEnviados);
-                    scrollDiv();
+                    if (nick != lastMsjId) {
+                        mensajeEnviados.innerHTML =
+                            `<div class="containerMensaje">
+                                <p class="idMensaje">` + doc.data().id + `</p>
+                                <p class="Mensaje">` + doc.data().mensaje + `</p>
+                                <p class="timeMensaje">` + stringFechaHora + `</p>
+                            </div>`;
+                        document.getElementById("ventanaChat").append(mensajeEnviados);
+                        scrollDiv();
+                        lastMsjId = doc.data().id;
+                    } else {
+                        mensajeEnviados.innerHTML =
+                            `<div class="containerMensaje">
+                                <p class="Mensaje">` + doc.data().mensaje + `</p>
+                                <p class="timeMensaje">` + stringFechaHora + `</p>
+                            </div>`;
+                        document.getElementById("ventanaChat").append(mensajeEnviados);
+                        scrollDiv();
+                        lastMsjId = doc.data().id;
+                    }
+
                 });
             });
 
