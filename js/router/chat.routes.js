@@ -5,8 +5,9 @@ let content = document.getElementById("root");
 const db = firebase.firestore();
 const userCol = db.collection("users");
 const chatMainCol = db.collection("chatMain");
+var nick;
 
-const router = (route, emailUser, nickname) => {
+const router = (route, emailUser) => {
     content.innerHTML = "";
 
     switch (route) {
@@ -25,7 +26,7 @@ const router = (route, emailUser, nickname) => {
                 .get()
                 .then((doc) => {
                     if (doc.exists) {
-                        let nick = doc.data().usuario;
+                        nick = doc.data().usuario;
                         console.log(doc.data());
                         document.getElementById("nombreUser").append(nick);
                     } else {
@@ -85,22 +86,19 @@ const router = (route, emailUser, nickname) => {
                             console.log(errorMessage + " " + errorCode);
                         });
                 });
-            /*---MENSAJES DEL CHAT GENERAL*/
-
             /* SCROLL DIV */
             function scrollDiv(){
-             
                 var div = document.getElementById('ventanaChat');
                 div.scrollTop = '9999';
-             
             }
 
+            /*---MENSAJES DEL CHAT GENERAL*/
             document
                 .getElementById("btnEnviarMensaje")
                 .addEventListener("click", function () {
                     let mensaje = document.getElementById("inputChat").value;
                     let dato = {
-                        id: emailUser,
+                        id: nick,
                         mensaje: mensaje,
                         hora: firebase.firestore.Timestamp.fromDate(new Date()),
                     };
@@ -128,10 +126,10 @@ const router = (route, emailUser, nickname) => {
                     console.log(stringFechaHora);
 
                     mensajeEnviados.innerHTML =
-                        `<div>
-                            <p>` + doc.data().id + `</p>
-                            <p>` + doc.data().mensaje + `</p>
-                            <p>` + doc.data().hora.Time + `</p>
+                        `<div class="containerMensaje">
+                            <p class="idMensaje">` + doc.data().id + `</p>
+                            <p class="Mensaje">` + doc.data().mensaje + `</p>
+                            <p class="timeMensaje">` + stringFechaHora + `</p>
                         </div>`;
                     document
                         .getElementById("ventanaChat")

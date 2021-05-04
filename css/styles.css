@@ -34,7 +34,7 @@
     width: 100%;
     height: 80vh;
     padding: 5px;
-    background-color: rgb(195, 204, 201);
+    background-color: #fcecdd;
     /* overflow-y: scroll; */
 }
 
@@ -55,4 +55,21 @@
     text-align: center;
 }
 
-
+.containerMensaje {
+    margin: 5px;
+    background-color: #bbbbbba8;
+    border-radius: 10px;
+    padding: 5px 8px;
+}
+.idMensaje {
+    font-weight: bold;
+    font-size: 13px;
+    margin: 4px 3px;
+}
+.Mensaje {
+    margin: 0px 3px;
+}
+.timeMensaje {
+    font-size: 11px;
+    margin: 3px 3px;
+}
