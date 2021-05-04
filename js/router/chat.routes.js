@@ -126,8 +126,6 @@ const router = (route, emailUser) => {
                     let stringFechaHora = fechayhora.toString();
                     stringFechaHora = stringFechaHora.replace(/Mon|May|03|2021|GMT-0300|hora estándar de Argentina|/g, "").replace("(", "").replace(")", "");
                     console.log(stringFechaHora);
-
-                    if (nick != lastMsjId) {
                         mensajeEnviados.innerHTML =
                             `<div class="containerMensaje">
                                 <p class="idMensaje">` + doc.data().id + `</p>
@@ -136,17 +134,6 @@ const router = (route, emailUser) => {
                             </div>`;
                         document.getElementById("ventanaChat").append(mensajeEnviados);
                         scrollDiv();
-                        lastMsjId = doc.data().id;
-                    } else {
-                        mensajeEnviados.innerHTML =
-                            `<div class="containerMensaje">
-                                <p class="Mensaje">` + doc.data().mensaje + `</p>
-                                <p class="timeMensaje">` + stringFechaHora + `</p>
-                            </div>`;
-                        document.getElementById("ventanaChat").append(mensajeEnviados);
-                        scrollDiv();
-                        lastMsjId = doc.data().id;
-                    }
 
                 });
             });
