@@ -6,6 +6,10 @@ const db = firebase.firestore();
 const userCol = db.collection("users");
 const chatMainCol = db.collection("chatMain");
 let nick, lastMsjId;
+const alertModal = new bootstrap.Modal(document.getElementById("modalAlert"), {
+    keyboard: false,
+    backdrop: "static",
+});
 
 const router = (route, emailUser) => {
     content.innerHTML = "";
@@ -142,10 +146,20 @@ const router = (route, emailUser) => {
                             document.getElementById("ventanaChat").append(mensajeEnviados);
                             scrollDiv();
                             /*const trash = document.querySelectorAll('.trash');*/
-                            let asd = document.getElementById('trash'+a)
-                            asd.addEventListener('click', ()=>{
-                                console.log(asd.id);
-                            })
+                            let trash = document.getElementById('trash'+a)
+                            trash.addEventListener('click', ()=>{
+                                alertModal.show();
+                                document.getElementById('btnBorrar').addEventListener('click', ()=> {
+                                    chatMainCol.doc(doc.id).delete()
+                                        .then(() => {
+                                            console.log("Mensaje borrado pa");
+                                            alertModal.hide();
+                                        })
+                                        .catch((error) => {
+                                            console.error("No se borro el mensaje pa: ", error);
+                                        });
+                                });
+                            });
                         } else {
                             mensajeEnviados.innerHTML =
                                 `<div class="containerMensaje">
@@ -172,15 +186,6 @@ const router = (route, emailUser) => {
                     */
                 });
             });
-
-            /*setTimeout(function(){
-                    console.log('corriendo for')
-                    for (var i = 0; i < trash.length; i++) {
-                        trash[i].addEventListener('click',()=>{
-                            alert('a '+i)
-                        })
-                    }
-                }, 3000);*/
 
             break;
         default:

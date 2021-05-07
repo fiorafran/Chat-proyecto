@@ -23,7 +23,7 @@ const signUp = () => {
 		.then((userCredential) => {
 			// Signed in
 			var user = userCredential.user;
-			alert("Registro correcto " + user);
+			alert("Registro correcto ");
 			userCol
 				.doc(email)
 				.set({
