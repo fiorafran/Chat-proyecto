@@ -107,17 +107,17 @@ const router = (route, emailUser) => {
                     document.getElementById("inputChat").value = "";
                 });
 
+            let a=0;
             let chatcito = chatMainCol.orderBy("hora", "asc");
             chatcito.onSnapshot((querySnapshot) => {
                 document.getElementById("ventanaChat").innerHTML = "";
                 querySnapshot.forEach((doc) => {
-
-
-                    console.log(doc.data());
+                    /*console.log(doc.data());*/
                     const mensajeEnviados = document.createElement(
                         "mensajeEnviados"
                     );
 
+                    let horasBorrar = doc.data().hora;
                     let obtenerNanos = doc.data().hora.nanoseconds;
                     let obtenerSecs = doc.data().hora.seconds;
                     let nts = obtenerNanos/1000000000;
@@ -125,19 +125,62 @@ const router = (route, emailUser) => {
                     let fechayhora = new Date(obtenerHoras * 1000);
                     let stringFechaHora = fechayhora.toString();
                     stringFechaHora = stringFechaHora.replace(/Mon|May|03|2021|GMT-0300|hora estándar de Argentina|/g, "").replace("(", "").replace(")", "");
-                    console.log(stringFechaHora);
+                    /*console.log(stringFechaHora);*/
+
+                    /*if (nick != lastMsjId) {*/
+                        if (nick == doc.data().id) {
+                            a++
+                            mensajeEnviados.innerHTML =
+                                `<div class="containerMensaje">
+                                    <div class="row">
+                                        <p class="idMensaje col self-align-left">` + doc.data().id + `</p>
+                                        <i class="trash far fa-trash-alt col-1 text-end" id="trash`+a+`"></i>
+                                    </div>
+                                    <p class="Mensaje">` + doc.data().mensaje + `</p>
+                                    <p class="timeMensaje">` + stringFechaHora + `</p>
+                                </div>`;
+                            document.getElementById("ventanaChat").append(mensajeEnviados);
+                            scrollDiv();
+                            /*const trash = document.querySelectorAll('.trash');*/
+                            let asd = document.getElementById('trash'+a)
+                            asd.addEventListener('click', ()=>{
+                                console.log(asd.id);
+                            })
+                        } else {
+                            mensajeEnviados.innerHTML =
+                                `<div class="containerMensaje">
+                                    <div class="row">
+                                        <p class="idMensaje col self-align-left">` + doc.data().id + `</p>
+                                    </div>
+                                    <p class="Mensaje">` + doc.data().mensaje + `</p>
+                                    <p class="timeMensaje">` + stringFechaHora + `</p>
+                                </div>`;
+                            document.getElementById("ventanaChat").append(mensajeEnviados);
+                            scrollDiv();
+                        }
+                   /*     lastMsjId = doc.data().id;
+                    } else {
                         mensajeEnviados.innerHTML =
                             `<div class="containerMensaje">
-                                <p class="idMensaje">` + doc.data().id + `</p>
                                 <p class="Mensaje">` + doc.data().mensaje + `</p>
                                 <p class="timeMensaje">` + stringFechaHora + `</p>
                             </div>`;
                         document.getElementById("ventanaChat").append(mensajeEnviados);
                         scrollDiv();
-
+                        lastMsjId = doc.data().id;
+                    }
+                    */
                 });
             });
 
+            /*setTimeout(function(){
+                    console.log('corriendo for')
+                    for (var i = 0; i < trash.length; i++) {
+                        trash[i].addEventListener('click',()=>{
+                            alert('a '+i)
+                        })
+                    }
+                }, 3000);*/
 
             break;
         default:

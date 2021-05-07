@@ -11,6 +11,12 @@
     
 }
 
+.trash {
+    width: 2rem;
+    padding: 0;
+    margin-right: .5em;
+}
+
 .box-ventanaC{
     border: 1px solid grey;
     width: 100%;
