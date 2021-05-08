@@ -72,7 +72,10 @@
     font-size: 13px;
     margin: 4px 3px;
 }
+
 .Mensaje {
+    word-wrap: break-word;
+    overflow: hidden;
     margin: 0px 3px;
 }
 .timeMensaje {

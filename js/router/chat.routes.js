@@ -11,13 +11,33 @@ const alertModal = new bootstrap.Modal(document.getElementById("modalAlert"), {
     backdrop: "static",
 });
 
+
+/*------ FUNCION ENVIAR MENSAJE ------*/
+const  sendMsj = () => {
+    /*--- CHEQUEAR SI ESTA VACIO O CON ESPACIOS ---*/
+    let strmsj = document.getElementById("inputChat").value;
+    strmsj = strmsj.trim();
+
+    if (strmsj.length > 0) {
+        let mensaje = document.getElementById("inputChat").value;
+        let dato = {
+            id: nick,
+            mensaje: mensaje,
+            hora: firebase.firestore.Timestamp.fromDate(new Date()),
+        };
+
+        chatMainCol.add(dato);
+        document.getElementById("inputChat").value = "";
+    } else {
+        alert('Escribe un mensaje.')
+    
+    }
+}
+
 const router = (route, emailUser) => {
     content.innerHTML = "";
 
     switch (route) {
-        case "": {
-            return content.append(Index());
-        }
         case "#/": {
             return content.append(Index());
         }
@@ -97,19 +117,8 @@ const router = (route, emailUser) => {
             }
 
             /*---MENSAJES DEL CHAT GENERAL*/
-            document
-                .getElementById("btnEnviarMensaje")
-                .addEventListener("click", function () {
-                    let mensaje = document.getElementById("inputChat").value;
-                    let dato = {
-                        id: nick,
-                        mensaje: mensaje,
-                        hora: firebase.firestore.Timestamp.fromDate(new Date()),
-                    };
-
-                    chatMainCol.add(dato);
-                    document.getElementById("inputChat").value = "";
-                });
+            document.getElementById("btnEnviarMensaje")
+                .addEventListener("click", sendMsj);
 
             let a=0;
             let chatcito = chatMainCol.orderBy("hora", "asc");
@@ -194,3 +203,4 @@ const router = (route, emailUser) => {
 };
 
 export { router };
+export { sendMsj };

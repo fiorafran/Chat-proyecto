@@ -1,4 +1,5 @@
 import { router } from "./router/chat.routes.js";
+import { sendMsj } from "./router/chat.routes.js"
 
 document.location.href = "index.html#/";
 
@@ -10,64 +11,28 @@ const myModal = new bootstrap.Modal(document.getElementById("modalRegistro"), {
 	keyboard: false,
 	backdrop: "static",
 });
+/*---------- EVENTO PRESIONAR ENTER ----------*/
+function keyEnter(evt) {
+	let key = evt.keyCode;
+	if (key == 13) {
+		if (window.location.hash == "#/") {
+			console.log('hola presionaste enter');
+			LogIn();
+		} else {
+			sendMsj();
+		}
+	}
+}
 
-/*---------- REGISTRO MODAL ----------*/
-const signUp = () => {
-	let email = document.getElementById("registroCorreo").value;
-	let password = document.getElementById("registroContraseña").value;
-	let nickname = document.getElementById("registroNickname").value;
+window.onkeydown = keyEnter;
 
-	firebase
-		.auth()
-		.createUserWithEmailAndPassword(email, password)
-		.then((userCredential) => {
-			// Signed in
-			var user = userCredential.user;
-			alert("Registro correcto ");
-			userCol
-				.doc(email)
-				.set({
-					usuario: nickname,
-					estado: false,
-				})
-			/*chatMainCol
-			.doc(email)
-			.set({
-				mensaje: "Bienvenido " + nickname 
-			})
-				.then(() => {
-					console.log("Document successfully written!");
-					document.getElementById("registroCorreo").value = "";
-					document.getElementById("registroContraseña").value = "";
-					myModal.hide();
-				})
-				.catch((error) => {
-					console.error("Error writing document: ", error);
-				});*/
-		})
-		.catch((error) => {
-			let errorCode = error.code;
-			let errorMessage = error.message;
-			alert(errorMessage + " " + errorCode);
-		});
-};
+/*---------- INICIAR SESION ----------*/
 
-/*---------- REGISTRO ----------*/
-document.getElementById("btnRegistrar").addEventListener("click", signUp);
-
-document.getElementById("btnCancelar").addEventListener("click", () => {
-	document.getElementById("registroCorreo").value = "";
-	document.getElementById("registroContraseña").value = "";
-});
-
-/*---------- LOGIN AUTENTICACIÓN ----------*/
-document.getElementById("btnIniciar").addEventListener("click", function () {
+const LogIn = () => {
 	let email = document.getElementById("inputCorreo").value;
 	let password = document.getElementById("inputContraseña").value;
 
-	firebase
-		.auth()
-		.signInWithEmailAndPassword(email, password)
+	firebase.auth().signInWithEmailAndPassword(email, password)
 		.then((userCredential) => {
 			// Signed in
 			let user = userCredential.user;
@@ -94,12 +59,46 @@ document.getElementById("btnIniciar").addEventListener("click", function () {
 			let errorMessage = error.message;
 			console.log(errorMessage + " " + errorCode);
 		});
+}
+
+
+/*---------- REGISTRO MODAL ----------*/
+const signUp = () => {
+	let email = document.getElementById("registroCorreo").value;
+	let password = document.getElementById("registroContraseña").value;
+	let nickname = document.getElementById("registroNickname").value;
+
+	firebase
+		.auth()
+		.createUserWithEmailAndPassword(email, password)
+		.then((userCredential) => {
+			// Signed in
+			var user = userCredential.user;
+			alert("Registro correcto ");
+			userCol
+				.doc(email)
+				.set({
+					usuario: nickname,
+					estado: false,
+				})
+		})
+		.catch((error) => {
+			let errorCode = error.code;
+			let errorMessage = error.message;
+			alert(errorMessage + " " + errorCode);
+		});
+};
+
+/*---------- REGISTRO ----------*/
+document.getElementById("btnRegistrar").addEventListener("click", signUp);
+
+document.getElementById("btnCancelar").addEventListener("click", () => {
+	document.getElementById("registroCorreo").value = "";
+	document.getElementById("registroContraseña").value = "";
 });
 
-
-
-
-
+/*---------- LOGIN AUTENTICACIÓN ----------*/
+document.getElementById("btnIniciar").addEventListener("click", LogIn);
 
 
 
