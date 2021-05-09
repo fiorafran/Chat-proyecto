@@ -45,9 +45,7 @@ const router = (route, emailUser) => {
             content.append(Chat());
 
             /*---CONSULTA USUARIO---*/
-            userCol
-                .doc(emailUser)
-                .get()
+            userCol.doc(emailUser).get()
                 .then((doc) => {
                     if (doc.exists) {
                         nick = doc.data().usuario;
@@ -72,44 +70,31 @@ const router = (route, emailUser) => {
                 });
             });
             /*-----LOGOUT------*/
-            document
-                .getElementById("btnLogOut")
-                .addEventListener("click", function () {
-                    firebase
-                        .auth()
-                        .signOut()
-                        .then(() => {
-                            userCol
-                                .doc(emailUser)
-                                .update({
-                                    estado: false,
-                                })
-                                .then(() => {
-                                    console.log(
-                                        "Document successfully updated!"
-                                    );
-                                    document.location.href = "index.html";
-                                    window.addEventListener(
-                                        "hashchange",
-                                        () => {
-                                            router(window.location.hash);
-                                        }
-                                    );
-                                })
-                                .catch((error) => {
-                                    console.error(
-                                        "Error updating document: ",
-                                        error
-                                    );
+            document.getElementById("btnLogOut").addEventListener("click", function () {
+                firebase.auth().signOut()
+                    .then(() => {
+                        userCol.doc(emailUser)
+                            .update({
+                                estado: false,
+                            })
+                            .then(() => {
+                                console.log("Desconectado!");
+                                document.location.href = "index.html";
+                                window.addEventListener("hashchange", () => {
+                                    router(window.location.hash);
                                 });
-                            console.log("usuario deslogueado");
-                        })
-                        .catch((error) => {
-                            let errorCode = error.code;
-                            let errorMessage = error.message;
-                            console.log(errorMessage + " " + errorCode);
-                        });
-                });
+                            })
+                            .catch((error) => {
+                                console.error("Error updating document: ",error
+                                );
+                            });
+                    })
+                    .catch((error) => {
+                        let errorCode = error.code;
+                        let errorMessage = error.message;
+                        console.log(errorMessage + " " + errorCode);
+                    });
+            });
             /* SCROLL DIV */
             function scrollDiv(){
                 var div = document.getElementById('ventanaChat');
@@ -117,8 +102,7 @@ const router = (route, emailUser) => {
             }
 
             /*---MENSAJES DEL CHAT GENERAL*/
-            document.getElementById("btnEnviarMensaje")
-                .addEventListener("click", sendMsj);
+            document.getElementById("btnEnviarMensaje").addEventListener("click", sendMsj);
 
             let a=0;
             let chatcito = chatMainCol.orderBy("hora", "asc");
@@ -138,61 +122,45 @@ const router = (route, emailUser) => {
                     let fechayhora = new Date(obtenerHoras * 1000);
                     let stringFechaHora = fechayhora.toString();
                     stringFechaHora = stringFechaHora.replace(/Mon|May|03|2021|GMT-0300|hora estándar de Argentina|/g, "").replace("(", "").replace(")", "");
-                    /*console.log(stringFechaHora);*/
 
-                    /*if (nick != lastMsjId) {*/
-                        if (nick == doc.data().id) {
-                            a++
-                            mensajeEnviados.innerHTML =
-                                `<div class="containerMensaje">
-                                    <div class="row">
-                                        <p class="idMensaje col self-align-left">` + doc.data().id + `</p>
-                                        <i class="trash far fa-trash-alt col-1 text-end" id="trash`+a+`"></i>
-                                    </div>
-                                    <p class="Mensaje">` + doc.data().mensaje + `</p>
-                                    <p class="timeMensaje">` + stringFechaHora + `</p>
-                                </div>`;
-                            document.getElementById("ventanaChat").append(mensajeEnviados);
-                            scrollDiv();
-                            /*const trash = document.querySelectorAll('.trash');*/
-                            let trash = document.getElementById('trash'+a)
-                            trash.addEventListener('click', ()=>{
-                                alertModal.show();
-                                document.getElementById('btnBorrar').addEventListener('click', ()=> {
-                                    chatMainCol.doc(doc.id).delete()
-                                        .then(() => {
-                                            console.log("Mensaje borrado pa");
-                                            alertModal.hide();
-                                        })
-                                        .catch((error) => {
-                                            console.error("No se borro el mensaje pa: ", error);
-                                        });
-                                });
-                            });
-                        } else {
-                            mensajeEnviados.innerHTML =
-                                `<div class="containerMensaje">
-                                    <div class="row">
-                                        <p class="idMensaje col self-align-left">` + doc.data().id + `</p>
-                                    </div>
-                                    <p class="Mensaje">` + doc.data().mensaje + `</p>
-                                    <p class="timeMensaje">` + stringFechaHora + `</p>
-                                </div>`;
-                            document.getElementById("ventanaChat").append(mensajeEnviados);
-                            scrollDiv();
-                        }
-                   /*     lastMsjId = doc.data().id;
-                    } else {
+                    if (nick == doc.data().id) {
+                        a++
                         mensajeEnviados.innerHTML =
                             `<div class="containerMensaje">
+                                <div class="row">
+                                    <p class="idMensaje col self-align-left">` + doc.data().id + `</p>
+                                    <i class="trash far fa-trash-alt col-1 text-end" id="trash`+a+`"></i>
+                                </div>
                                 <p class="Mensaje">` + doc.data().mensaje + `</p>
                                 <p class="timeMensaje">` + stringFechaHora + `</p>
                             </div>`;
                         document.getElementById("ventanaChat").append(mensajeEnviados);
                         scrollDiv();
-                        lastMsjId = doc.data().id;
+                        let trash = document.getElementById('trash'+a)
+                        trash.addEventListener('click', ()=>{
+                            alertModal.show();
+                            document.getElementById('btnBorrar').addEventListener('click', ()=> {
+                                chatMainCol.doc(doc.id).delete()
+                                    .then(() => {
+                                        alertModal.hide();
+                                    })
+                                    .catch((error) => {
+                                        console.error("No se borro el mensaje pa: ", error);
+                                    });
+                            });
+                        });
+                    } else {
+                        mensajeEnviados.innerHTML =
+                            `<div class="containerMensaje">
+                                <div class="row">
+                                    <p class="idMensaje col self-align-left">` + doc.data().id + `</p>
+                                </div>
+                                <p class="Mensaje">` + doc.data().mensaje + `</p>
+                                <p class="timeMensaje">` + stringFechaHora + `</p>
+                            </div>`;
+                        document.getElementById("ventanaChat").append(mensajeEnviados);
+                        scrollDiv();
                     }
-                    */
                 });
             });
 
@@ -202,5 +170,4 @@ const router = (route, emailUser) => {
     }
 };
 
-export { router };
-export { sendMsj };
+export { router, sendMsj };

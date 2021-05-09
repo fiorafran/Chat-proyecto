@@ -1,5 +1,4 @@
-import { router } from "./router/chat.routes.js";
-import { sendMsj } from "./router/chat.routes.js"
+import { router, sendMsj } from "./router/chat.routes.js";
 
 document.location.href = "index.html#/";
 
