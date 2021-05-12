@@ -2,6 +2,9 @@ export default () => {
   const vista = `
     <div class="container m-0 alt">
       <div class="row">
+        <div class="col" id="new">
+          Aca abajo deberia crearse lo nuevo
+        </div>
         <div class="col-8 box-ventanaG">
           <h1 style="color: white" id="nombreUser"></h1>
 
@@ -23,11 +26,14 @@ export default () => {
           </div>
         </div>
         <div class="col box-ventanaC">
-          <h1 style="color: white">Usuarios Online</h1>
+          <h1 style="color: white">Usuarios</h1>
           <div class="columna-usuarios">
-          <ul id="usuariosConectados">
-          
-          </ul>            
+          <ul class="online" id="usuariosConectados">
+
+          </ul>
+          <br/>           
+          <ul class="offline" id="usuariosDesconectados">
+          </ul>
           </div>
           <div class="col">
               <button class="btn btn-danger" id="btnLogOut">

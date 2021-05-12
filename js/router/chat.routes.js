@@ -5,7 +5,8 @@ let content = document.getElementById("root");
 const db = firebase.firestore();
 const userCol = db.collection("users");
 const chatMainCol = db.collection("chatMain");
-let nick, lastMsjId;
+const privateChat = db.collection('privateChat');
+let nick, lastMsjId, emailGlobal;
 const alertModal = new bootstrap.Modal(document.getElementById("modalAlert"), {
     keyboard: false,
     backdrop: "static",
@@ -22,6 +23,7 @@ const  sendMsj = () => {
         let mensaje = document.getElementById("inputChat").value;
         let dato = {
             id: nick,
+            email: emailGlobal,
             mensaje: mensaje,
             hora: firebase.firestore.Timestamp.fromDate(new Date()),
         };
@@ -35,6 +37,7 @@ const  sendMsj = () => {
 }
 
 const router = (route, emailUser) => {
+    emailGlobal = emailUser;
     content.innerHTML = "";
 
     switch (route) {
@@ -60,15 +63,40 @@ const router = (route, emailUser) => {
                 });
 
             /*---CONSULTA USUARIOS CONECTADOS---*/
-            userCol.where("estado", "==", true).onSnapshot((querySnapshot) => {
+            userCol.onSnapshot((querySnapshot) => {
                 document.getElementById("usuariosConectados").innerHTML = "";
+                document.getElementById("usuariosDesconectados").innerHTML = "";
                 querySnapshot.forEach((doc) => {
                     console.log(doc.data().usuario);
                     const li = document.createElement("li");
-                    li.innerHTML = "<p>" + doc.data().usuario + "</p>";
-                    document.getElementById("usuariosConectados").append(li);
+                    const le = document.createElement("li")
+                    if (doc.data().estado == true) {       
+                        li.innerHTML = "<p id='id_"+doc.data().usuario+"' email="+doc.id+">" + doc.data().usuario + "</p>";
+                        document.getElementById("usuariosConectados").append(li);
+                    } else {
+                        le.innerHTML = "<p id='id_"+doc.data().usuario+"' email="+doc.id+">" + doc.data().usuario + "</p>";
+                        document.getElementById("usuariosDesconectados").append(le);
+                    }
+                    const asd = document.getElementById('id_'+doc.data().usuario);
+                    asd.addEventListener('click', ()=>{
+                        let id = asd.id.replace('id_', "");
+                        let em = asd.getAttribute('email');
+                        console.log('hizo click', em);
+                        /*privateChat.doc(emailUser).collection('chats').add({ mensaje: 'probando', email: em });*/
+                    })
                 });
             });
+            /*----- USUARIOS CON LOS QUE CHATEA -----*/
+            privateChat.doc(emailUser).collection('chats').onSnapshot((querySnapshot) => {
+                /*document.getElementById("new").innerHTML = "";*/
+                querySnapshot.forEach((doc) => {
+                    console.log(doc.data());
+                    const div = document.createElement('div');
+                    div.id = doc.data().email;
+                    document.getElementById("new").append(div);
+                });
+            });
+
             /*-----LOGOUT------*/
             document.getElementById("btnLogOut").addEventListener("click", function () {
                 firebase.auth().signOut()
@@ -109,7 +137,6 @@ const router = (route, emailUser) => {
             chatcito.onSnapshot((querySnapshot) => {
                 document.getElementById("ventanaChat").innerHTML = "";
                 querySnapshot.forEach((doc) => {
-                    /*console.log(doc.data());*/
                     const mensajeEnviados = document.createElement(
                         "mensajeEnviados"
                     );
