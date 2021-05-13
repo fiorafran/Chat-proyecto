@@ -7,7 +7,7 @@ export default () => {
         </div>
 
         <div class="col-8 box-main-chat">
-          <h1 style="color: white" id="nombreUser"></h1>
+          <h2 style="color: white" id="nombreUser">@</h2>
 
           <div class="overflow-auto box-ventana-chat" id="ventanaChat"></div>
 
@@ -26,7 +26,7 @@ export default () => {
         </div>
 
         <div class="col box-users">
-          <h1 style="color: white">Usuarios</h1>
+          <h2 style="color: white">#Usuarios</h2>
           <div class="columna-users">
           <ul class="online" id="usuariosConectados">
           </ul>
