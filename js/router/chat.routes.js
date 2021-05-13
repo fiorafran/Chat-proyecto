@@ -1,12 +1,13 @@
-import Chat from "../../chat.js";
 import Index from "../../index.js";
+import Chat from "../../chat.js";
+import PrivateChat from "../../privateChat.js"
 
 let content = document.getElementById("root");
 const db = firebase.firestore();
 const userCol = db.collection("users");
 const chatMainCol = db.collection("chatMain");
 const privateChat = db.collection('privateChat');
-let nick, lastMsjId, emailGlobal;
+let nick, lastMsjId, emailGlobal, user;
 const alertModal = new bootstrap.Modal(document.getElementById("modalAlert"), {
     keyboard: false,
     backdrop: "static",
@@ -77,25 +78,27 @@ const router = (route, emailUser) => {
                         le.innerHTML = "<p id='id_"+doc.data().usuario+"' email="+doc.id+">" + doc.data().usuario + "</p>";
                         document.getElementById("usuariosDesconectados").append(le);
                     }
-                    const asd = document.getElementById('id_'+doc.data().usuario);
-                    asd.addEventListener('click', ()=>{
-                        let id = asd.id.replace('id_', "");
-                        let em = asd.getAttribute('email');
-                        console.log('hizo click', em);
+                    const clickUser = document.getElementById('id_'+doc.data().usuario);
+                    clickUser.addEventListener('click', ()=>{
+                        let id = clickUser.id.replace('id_', "");
+                        let em = clickUser.getAttribute('email');
+                        user = id;
+                        document.location.href = "index.html#/chat/"+user+"";
                         /*privateChat.doc(emailUser).collection('chats').add({ mensaje: 'probando', email: em });*/
                     })
                 });
             });
+
             /*----- USUARIOS CON LOS QUE CHATEA -----*/
-            privateChat.doc(emailUser).collection('chats').onSnapshot((querySnapshot) => {
-                /*document.getElementById("new").innerHTML = "";*/
+            /*privateChat.doc(emailUser).collection('chats').onSnapshot((querySnapshot) => {
+                document.getElementById("new").innerHTML = "";
                 querySnapshot.forEach((doc) => {
                     console.log(doc.data());
                     const div = document.createElement('div');
                     div.id = doc.data().email;
                     document.getElementById("new").append(div);
                 });
-            });
+            });*/
 
             /*-----LOGOUT------*/
             document.getElementById("btnLogOut").addEventListener("click", function () {
@@ -192,6 +195,9 @@ const router = (route, emailUser) => {
             });
 
             break;
+        case "#/chat/"+user+"":
+            alert('Ahora existe'+user);
+            content.append(PrivateChat());
         default:
             return console.log("404");
     }
