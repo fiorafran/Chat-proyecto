@@ -1,8 +1,92 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap%27');
 
 body {
-  font-family: 'Source Code Pro', monospace !important;
-  color: #00FF41 !important;
+    font-family: 'Source Code Pro', monospace !important;
+    color: #00FF41 !important;
+    background-color: black!important;
+}
+#navBarCmd {
+    border-bottom: 2px dashed #00FF41;
+    height: 62px;
+}
+#navbarTitle {
+    color: #00FF41;
+}
+#navbarTitle:before {
+    content: "> ";
+    font-size: 21px;
+}
+#btnReg {
+    color: #00c4ff;
+    background-color: transparent;
+    border: 0px;
+}
+
+#btnReg:after {
+    content: " <";
+    font-size: 21px;
+}
+
+#btnReg:hover {
+    border: 1px solid #00c4ff;
+}
+
+#modalContentReg, #modalContentBorrar {
+    background: black;
+    border: 1px solid #00FF41;
+}
+
+#modalContentReg .modal-header, #modalContentReg .modal-footer {
+    border: 0px;
+}
+
+#modalContentBorrar .modal-header, #modalContentBorrar .modal-footer {
+    border: 0px;
+}
+
+#registroCorreo, #registroNickname, #registroContraseña {
+    background-color: transparent;
+    color: #00FF41;
+    border: 1px solid #00FF41;
+}
+
+#btnCancel {
+    color: #909090;
+    background-color: transparent;
+    border: 0px;
+}
+
+#btnCancelar, #btnBorrar {
+    color: red;
+    background-color: transparent;
+    border: 0px;
+}
+
+#btnRegistrar {
+    color: #00FF41;
+    background-color: transparent;
+    border: 0px;
+}
+
+#ventanaChat::-webkit-scrollbar {
+    background-color: black;
+    width: .3vw;
+    color: black!important;
+}
+
+#ventanaChat::-webkit-scrollbar-thumb {
+    background-color: #00FF41;
+}
+
+#inputCorreo, #inputContraseña, #btnIniciar {
+    background-color: transparent;
+    color: #00FF41;
+    border: 1px solid #00FF41;
+}
+
+#btnIniciar:hover {
+    background-color: #00FF41;
+    color: black;
 }
 
 .alt {
@@ -40,6 +124,7 @@ body {
     padding: .3em;
     border-radius: 3px;
     /* overflow-y: scroll; */
+    scrollbar-color: yellow #800080;
 }
 
 .barra-chat{
