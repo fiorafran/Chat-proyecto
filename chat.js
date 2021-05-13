@@ -5,42 +5,42 @@ export default () => {
         <div class="col" id="new">
           Aca abajo deberia crearse lo nuevo
         </div>
-        <div class="col-8 box-ventanaG">
+
+        <div class="col-8 box-main-chat">
           <h1 style="color: white" id="nombreUser"></h1>
 
           <div class="overflow-auto box-ventana-chat" id="ventanaChat"></div>
 
           <div class="row barra-chat">
-            <div class="col-sm-10">
-              <input
-                type="text"
-                id="inputChat"
-                placeholder="Escribir mensaje..."
-              />
+            <div class="col-10">
+              <input type="text" id="inputChat" placeholder="Escribir mensaje"/>
             </div>
-            <div class="col-2">
+            <div class="col">
               <button class="btn btn-primary" id="btnEnviarMensaje">
                 Enviar
               </button>
             </div>
-          </div>
-        </div>
-        <div class="col box-ventanaC">
-          <h1 style="color: white">Usuarios</h1>
-          <div class="columna-usuarios">
-          <ul class="online" id="usuariosConectados">
 
+          </div>
+
+        </div>
+
+        <div class="col box-users">
+          <h1 style="color: white">Usuarios</h1>
+          <div class="columna-users">
+          <ul class="online" id="usuariosConectados">
           </ul>
           <br/>           
           <ul class="offline" id="usuariosDesconectados">
           </ul>
           </div>
-          <div class="col">
+          <div class="logout">
               <button class="btn btn-danger" id="btnLogOut">
                 Salir
               </button>
-            </div>
+          </div>
         </div>
+
       </div>
     </div>
   `;
