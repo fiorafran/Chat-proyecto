@@ -26,7 +26,7 @@ export default () => {
         </div>
 
         <div class="col box-users">
-          <h2 style="color: white">#Usuarios</h2>
+          <h2 style="color: white">>Usuarios</h2>
           <div class="columna-users">
           <ul class="online" id="usuariosConectados">
           </ul>

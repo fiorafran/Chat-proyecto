@@ -1,4 +1,4 @@
-import { router, sendMsj } from "./router/chat.routes.js";
+import { router, sendMsj, sendMsjPriv } from "./router/chat.routes.js";
 
 document.location.href = "index.html#/";
 
@@ -17,8 +17,10 @@ function keyEnter(evt) {
 		if (window.location.hash == "#/") {
 			console.log('hola presionaste enter');
 			LogIn();
-		} else {
+		} else if(window.location.hash == "#/chat") {
 			sendMsj();
+		} else {
+			sendMsjPriv();
 		}
 	}
 }
