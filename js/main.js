@@ -99,7 +99,7 @@ document.getElementById("btnCancelar").addEventListener("click", () => {
 });
 
 /*---------- LOGIN AUTENTICACIÓN ----------*/
-document.getElementById("btnIniciar").addEventListener("click", LogIn);
+/*document.getElementById("btnIniciar").addEventListener("click", LogIn);*/
 
 
 

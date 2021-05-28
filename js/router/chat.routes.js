@@ -57,14 +57,48 @@ const  sendMsjPriv = () => {
     }
 }
 
+const LogIn = () => {
+    let email = document.getElementById("inputCorreo").value;
+    let password = document.getElementById("inputContraseña").value;
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            // Signed in
+            let user = userCredential.user;
+            console.log("usuario iniciado");
+            document.location.href = "index.html#/chat";
+            window.addEventListener("hashchange", () => {
+                router(window.location.hash, email);
+            });
+            userCol
+                .doc(email)
+                .update({
+                    estado: true,
+                })
+                .then(() => {
+                    console.log("Document successfully updated!");
+                })
+                .catch((error) => {
+                    // The document probably doesn't exist.
+                    console.error("Error updating document: ", error);
+                });
+        })
+        .catch((error) => {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            console.log(errorMessage + " " + errorCode);
+        });
+}
+
 const router = (route, emailUser) => {
     emailGlobal = emailUser;
     content.innerHTML = "";
 
     switch (route) {
-        case "#/": {
-            return content.append(Index());
-        }
+        case "#/":
+             content.append(Index());
+             document.getElementById("btnIniciar").addEventListener("click", LogIn);
+        break;
         case "#/chat":
             content.append(Chat());
 

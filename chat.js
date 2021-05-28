@@ -2,10 +2,6 @@ export default () => {
   const vista = `
     <div class="container m-0 alt">
       <div class="row">
-        <div class="col" id="new">
-          Aca abajo deberia crearse lo nuevo
-        </div>
-
         <div class="col-8 box-main-chat">
           <h2 style="color: white" id="nombreUser">@</h2>
 
