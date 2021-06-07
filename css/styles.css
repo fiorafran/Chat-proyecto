@@ -90,14 +90,15 @@ body {
 }
 
 .alt {
-    height: 100vh;
+    height: 100%;
     max-width: 100%!important;
     background: black;
 }
 
 .box-main-chat {
     width: 100%;
-    height: 100vh;
+ 
+    padding: 0 10rem 0 10rem;
 }
 
 .trash {
@@ -118,6 +119,12 @@ body {
     border-radius: 3px;
 }
 
+.columna-users-privado{
+    padding: 1em 0;
+    height: 80vh;
+    border-radius: 3px;
+}
+
 .box-ventana-chat{
     width: 100%;
     height: 83vh;
@@ -129,6 +136,8 @@ body {
 
 .barra-chat{
     padding: 1em 0;
+    width: 100%;
+    height: 17vh;
 }
 
 #inputChat, #inputChatPrivado {
@@ -156,10 +165,25 @@ body {
     color: black;
 }
 
+#btnVolver {
+    height: 5vh;
+    color: lightblue;
+    background-color: transparent;
+    border: 0px;
+}
+
+#btnVolver:before {
+    content: "> ";    
+}
+
 .logout {
     padding: 1em 0;
     width: 100%;
+}
 
+.logoutPrivado {
+    padding: 1em 0;
+    width: 100%;
 }
 
 #btnLogOut, #btnLogOutPrivado {
@@ -171,9 +195,9 @@ body {
 }
 
 #btnLogOut:before {
-    content: "> ";
-    
+    content: "> ";    
 }
+
 
 #btnLogOutPrivado:before {
     content: "> ";

@@ -1,12 +1,12 @@
 import Index from "../../index.js";
 import Chat from "../../chat.js";
-import PrivateChat from "../../privateChat.js"
+import PrivateChat from "../../privateChat.js";
 
 let content = document.getElementById("root");
 const db = firebase.firestore();
 const userCol = db.collection("users");
 const chatMainCol = db.collection("chatMain");
-const privateChat = db.collection('privateChat');
+const privateChat = db.collection("privateChat");
 let nick, lastMsjId, emailGlobal, emailPrivado, user, unsubscribe, rutaUsuario;
 const alertModal = new bootstrap.Modal(document.getElementById("modalAlert"), {
     keyboard: false,
@@ -14,7 +14,7 @@ const alertModal = new bootstrap.Modal(document.getElementById("modalAlert"), {
 });
 
 /*------ FUNCION ENVIAR MENSAJE ------*/
-const  sendMsj = () => {
+const sendMsj = () => {
     /*--- CHEQUEAR SI ESTA VACIO O CON ESPACIOS ---*/
     let strmsj = document.getElementById("inputChat").value;
     strmsj = strmsj.trim();
@@ -31,12 +31,11 @@ const  sendMsj = () => {
         chatMainCol.add(dato);
         document.getElementById("inputChat").value = "";
     } else {
-        alert('Escribe un mensaje.')
-    
+        alert("Escribe un mensaje.");
     }
-}
+};
 
-const  sendMsjPriv = () => {
+const sendMsjPriv = () => {
     /*--- CHEQUEAR SI ESTA VACIO O CON ESPACIOS ---*/
     let strmsj = document.getElementById("inputChatPrivado").value;
     strmsj = strmsj.trim();
@@ -50,18 +49,20 @@ const  sendMsjPriv = () => {
         };
 
         privateChat.doc(emailGlobal).collection(emailPrivado).add(dato);
+        privateChat.doc(emailPrivado).collection(emailGlobal).add(dato);
         document.getElementById("inputChatPrivado").value = "";
     } else {
-        alert('Escribe un mensaje.')
-    
+        alert("Escribe un mensaje.");
     }
-}
+};
 
 const LogIn = () => {
     let email = document.getElementById("inputCorreo").value;
     let password = document.getElementById("inputContraseña").value;
 
-    firebase.auth().signInWithEmailAndPassword(email, password)
+    firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // Signed in
             let user = userCredential.user;
@@ -88,6 +89,12 @@ const LogIn = () => {
             let errorMessage = error.message;
             console.log(errorMessage + " " + errorCode);
         });
+};
+
+
+const backToChat = () => {
+    document.location.href = "index.html#/chat";
+   
 }
 
 const router = (route, emailUser) => {
@@ -96,14 +103,18 @@ const router = (route, emailUser) => {
 
     switch (route) {
         case "#/":
-             content.append(Index());
-             document.getElementById("btnIniciar").addEventListener("click", LogIn);
-        break;
+            content.append(Index());
+            document
+                .getElementById("btnIniciar")
+                .addEventListener("click", LogIn);
+            break;
         case "#/chat":
             content.append(Chat());
 
             /*---CONSULTA USUARIO---*/
-            userCol.doc(emailUser).get()
+            userCol
+                .doc(emailUser)
+                .get()
                 .then((doc) => {
                     if (doc.exists) {
                         nick = doc.data().usuario;
@@ -123,22 +134,39 @@ const router = (route, emailUser) => {
                 document.getElementById("usuariosDesconectados").innerHTML = "";
                 querySnapshot.forEach((doc) => {
                     const li = document.createElement("li");
-                    const le = document.createElement("li")
-                    if (doc.data().estado == true) {       
-                        li.innerHTML = "<p id='id_"+doc.data().usuario+"'>" + doc.data().usuario + "</p>";
-                        document.getElementById("usuariosConectados").append(li);
+                    const le = document.createElement("li");
+                    if (doc.data().estado == true) {
+                        li.innerHTML =
+                            "<p id='id_" +
+                            doc.data().usuario +
+                            "'>" +
+                            doc.data().usuario +
+                            "</p>";
+                        document
+                            .getElementById("usuariosConectados")
+                            .append(li);
                     } else {
-                        le.innerHTML = "<p id='id_"+doc.data().usuario+"'>" + doc.data().usuario + "</p>";
-                        document.getElementById("usuariosDesconectados").append(le);
+                        le.innerHTML =
+                            "<p id='id_" +
+                            doc.data().usuario +
+                            "'>" +
+                            doc.data().usuario +
+                            "</p>";
+                        document
+                            .getElementById("usuariosDesconectados")
+                            .append(le);
                     }
-                    const clickUser = document.getElementById('id_'+doc.data().usuario);
-                    clickUser.addEventListener('click', ()=>{
-                        let id = clickUser.id.replace('id_', "");
-                        let em = clickUser.getAttribute('email');
+                    const clickUser = document.getElementById(
+                        "id_" + doc.data().usuario
+                    );
+                    clickUser.addEventListener("click", () => {
+                        let id = clickUser.id.replace("id_", "");
+                        let em = clickUser.getAttribute("email");
                         user = id;
-                        rutaUsuario = user.replace(' ', '');
-                        document.location.href = "index.html#/chat/"+rutaUsuario+"";
-                    })
+                        rutaUsuario = user.replace(" ", "");
+                        document.location.href =
+                            "index.html#/chat/" + rutaUsuario + "";
+                    });
                 });
             });
 
@@ -154,192 +182,310 @@ const router = (route, emailUser) => {
             });*/
 
             /*-----LOGOUT------*/
-            document.getElementById("btnLogOut").addEventListener("click", function () {
-                firebase.auth().signOut()
-                    .then(() => {
-                        userCol.doc(emailUser)
-                            .update({
-                                estado: false,
-                            })
-                            .then(() => {
-                                console.log("Desconectado!");
-                                document.location.href = "index.html";
-                                window.addEventListener("hashchange", () => {
-                                    router(window.location.hash);
+            document
+                .getElementById("btnLogOut")
+                .addEventListener("click", function () {
+                    firebase
+                        .auth()
+                        .signOut()
+                        .then(() => {
+                            userCol
+                                .doc(emailUser)
+                                .update({
+                                    estado: false,
+                                })
+                                .then(() => {
+                                    console.log("Desconectado!");
+                                    document.location.href = "";
+                                    window.addEventListener(
+                                        "hashchange",
+                                        () => {
+                                            router(window.location.hash);
+                                        }
+                                    );
+                                })
+                                .catch((error) => {
+                                    console.error(
+                                        "Error updating document: ",
+                                        error
+                                    );
                                 });
-                            })
-                            .catch((error) => {
-                                console.error("Error updating document: ",error
-                                );
-                            });
-                    })
-                    .catch((error) => {
-                        let errorCode = error.code;
-                        let errorMessage = error.message;
-                        console.log(errorMessage + " " + errorCode);
-                    });
-            });
+                        })
+                        .catch((error) => {
+                            let errorCode = error.code;
+                            let errorMessage = error.message;
+                            console.log(errorMessage + " " + errorCode);
+                        });
+                });
             /* SCROLL DIV */
-            function scrollDiv(){
-                var div = document.getElementById('ventanaChat');
-                div.scrollTop = '9999';
+            function scrollDiv() {
+                if (window.location.hash == "#/chat") {
+                  let div = document.getElementById("ventanaChat");  
+                  div.scrollTop = "9999";
+              } else if (window.location.hash == "#/chat/"+rutaUsuario+"") {
+                    let div = document.getElementById("ventanaChatPrivado");
+                    div.scrollTop = "9999";
+                }             
             }
 
             /*---MENSAJES DEL CHAT GENERAL*/
-            document.getElementById("btnEnviarMensaje").addEventListener("click", sendMsj);
+            document
+                .getElementById("btnEnviarMensaje")
+                .addEventListener("click", sendMsj);
 
-            let a=0;
+            let a = 0;
             let chatcito = chatMainCol.orderBy("hora", "asc");
             chatcito.onSnapshot((querySnapshot) => {
                 document.getElementById("ventanaChat").innerHTML = "";
                 querySnapshot.forEach((doc) => {
-                    const mensajeEnviados = document.createElement("mensajeEnviados");
+                    const mensajeEnviados = document.createElement(
+                        "mensajeEnviados"
+                    );
 
                     let horasBorrar = doc.data().hora;
                     let obtenerNanos = doc.data().hora.nanoseconds;
                     let obtenerSecs = doc.data().hora.seconds;
-                    let nts = obtenerNanos/1000000000;
-                    let obtenerHoras = nts + obtenerSecs;                                                       
+                    let nts = obtenerNanos / 1000000000;
+                    let obtenerHoras = nts + obtenerSecs;
                     let fechayhora = new Date(obtenerHoras * 1000);
                     let stringFechaHora = fechayhora.toString();
-                    stringFechaHora = stringFechaHora.replace(/Mon|May|03|2021|GMT-0300|hora estándar de Argentina|/g, "").replace("(", "").replace(")", "");
+                    stringFechaHora = stringFechaHora
+                        .replace(
+                            /Mon|May|03|2021|GMT-0300|hora estándar de Argentina|/g,
+                            ""
+                        )
+                        .replace("(", "")
+                        .replace(")", "");
 
                     if (nick == doc.data().id) {
-                        a++
+                        a++;
                         mensajeEnviados.innerHTML =
                             `<div class="containerMensaje">
                                 <div class="row">
-                                    <p class="idMensaje col self-align-left">` + doc.data().id + `</p>
-                                    <i class="trash far fa-trash-alt col-1 text-end" id="trash`+a+`"></i>
+                                    <p class="idMensaje col self-align-left">` +
+                            doc.data().id +
+                            `</p>
+                                    <i class="trash far fa-trash-alt col-1 text-end" id="trash` +
+                            a +
+                            `"></i>
                                 </div>
-                                <p class="Mensaje">` + doc.data().mensaje + `</p>
-                                <p class="timeMensaje">` + stringFechaHora + `</p>
+                                <p class="Mensaje">` +
+                            doc.data().mensaje +
+                            `</p>
+                                <p class="timeMensaje">` +
+                            stringFechaHora +
+                            `</p>
                             </div>`;
-                        document.getElementById("ventanaChat").append(mensajeEnviados);
+                        document
+                            .getElementById("ventanaChat")
+                            .append(mensajeEnviados);
                         scrollDiv();
-                        let trash = document.getElementById('trash'+a)
-                        trash.addEventListener('click', ()=>{
+                        let trash = document.getElementById("trash" + a);
+                        trash.addEventListener("click", () => {
                             alertModal.show();
-                            document.getElementById('btnBorrar').addEventListener('click', ()=> {
-                                chatMainCol.doc(doc.id).delete()
-                                    .then(() => {
-                                        alertModal.hide();
-                                    })
-                                    .catch((error) => {
-                                        console.error("No se borro el mensaje pa: ", error);
-                                    });
-                            });
+                            document
+                                .getElementById("btnBorrar")
+                                .addEventListener("click", () => {
+                                    chatMainCol
+                                        .doc(doc.id)
+                                        .delete()
+                                        .then(() => {
+                                            alertModal.hide();
+                                        })
+                                        .catch((error) => {
+                                            console.error(
+                                                "No se borro el mensaje pa: ",
+                                                error
+                                            );
+                                        });
+                                });
                         });
                     } else {
                         mensajeEnviados.innerHTML =
                             `<div class="containerMensaje">
                                 <div class="row">
-                                    <p class="idMensaje col self-align-left">` + doc.data().id + `</p>
+                                    <p class="idMensaje col self-align-left">` +
+                            doc.data().id +
+                            `</p>
                                 </div>
-                                <p class="Mensaje">` + doc.data().mensaje + `</p>
-                                <p class="timeMensaje">` + stringFechaHora + `</p>
+                                <p class="Mensaje">` +
+                            doc.data().mensaje +
+                            `</p>
+                                <p class="timeMensaje">` +
+                            stringFechaHora +
+                            `</p>
                             </div>`;
-                        document.getElementById("ventanaChat").append(mensajeEnviados);
+                        document
+                            .getElementById("ventanaChat")
+                            .append(mensajeEnviados);
                         scrollDiv();
                     }
                 });
             });
 
             break;
-        case "#/chat/"+rutaUsuario+"":
+        case "#/chat/" + rutaUsuario + "":
             unsubscribe();
             content.append(PrivateChat());
             document.getElementById("nombreUserPrivado").append(user);
 
             /* CONSULTA USUARIOS CONECTADOS EN PRIVADO */
             userCol.onSnapshot((querySnapshot) => {
-                document.getElementById("usuariosConectadosPrivado").innerHTML = "";
-                document.getElementById("usuariosDesconectadosPrivado").innerHTML = "";
+                document.getElementById("usuariosConectadosPrivado").innerHTML =
+                    "";
+                document.getElementById(
+                    "usuariosDesconectadosPrivado"
+                ).innerHTML = "";
                 querySnapshot.forEach((doc) => {
                     const li = document.createElement("li");
-                    const le = document.createElement("li")
-                    if (doc.data().estado == true) {       
-                        li.innerHTML = "<p id='id_"+doc.data().usuario+"'>" + doc.data().usuario + "</p>";
-                        document.getElementById("usuariosConectadosPrivado").append(li);
+                    const le = document.createElement("li");
+                    if (doc.data().estado == true) {
+                        li.innerHTML =
+                            "<p id='id_" +
+                            doc.data().usuario +
+                            "'>" +
+                            doc.data().usuario +
+                            "</p>";
+                        document
+                            .getElementById("usuariosConectadosPrivado")
+                            .append(li);
                     } else {
-                        le.innerHTML = "<p id='id_"+doc.data().usuario+"'>" + doc.data().usuario + "</p>";
-                        document.getElementById("usuariosDesconectadosPrivado").append(le);
+                        le.innerHTML =
+                            "<p id='id_" +
+                            doc.data().usuario +
+                            "'>" +
+                            doc.data().usuario +
+                            "</p>";
+                        document
+                            .getElementById("usuariosDesconectadosPrivado")
+                            .append(le);
                     }
-                    const clickUser = document.getElementById('id_'+doc.data().usuario);
-                    clickUser.addEventListener('click', ()=>{
-                        let id = clickUser.id.replace('id_', "");
-                        let em = clickUser.getAttribute('email');
+                    const clickUser = document.getElementById(
+                        "id_" + doc.data().usuario
+                    );
+                    clickUser.addEventListener("click", () => {
+                        let id = clickUser.id.replace("id_", "");
+                        let em = clickUser.getAttribute("email");
                         user = id;
-                        rutaUsuario = user.replace(' ', '');
-                        document.location.href = "index.html#/chat/"+rutaUsuario+"";
+                        rutaUsuario = user.replace(" ", "");
+                        document.location.href =
+                            "index.html#/chat/" + rutaUsuario + "";
                         /*privateChat.doc(emailUser).collection('chats').add({ mensaje: 'probando', email: em });*/
-                    })
+                    });
                 });
             });
 
-            document.getElementById("btnLogOutPrivado").addEventListener("click", function () {
-                firebase.auth().signOut()
-                    .then(() => {
-                        userCol.doc(emailUser)
-                            .update({
-                                estado: false,
-                            })
-                            .then(() => {
-                                console.log("Desconectado!");
-                                document.location.href = "index.html";
-                                window.addEventListener("hashchange", () => {
-                                    router(window.location.hash);
+            document
+                .getElementById("btnLogOutPrivado")
+                .addEventListener("click", function () {
+                    firebase
+                        .auth()
+                        .signOut()
+                        .then(() => {
+                            userCol
+                                .doc(emailUser)
+                                .update({
+                                    estado: false,
+                                })
+                                .then(() => {
+                                    console.log("Desconectado!");
+                                    document.location.href = "index.html";
+                                    window.addEventListener(
+                                        "hashchange",
+                                        () => {
+                                            router(window.location.hash);
+                                        }
+                                    );
+                                })
+                                .catch((error) => {
+                                    console.error(
+                                        "Error updating document: ",
+                                        error
+                                    );
                                 });
-                            })
-                            .catch((error) => {
-                                console.error("Error updating document: ",error
-                                );
-                            });
-                    })
-                    .catch((error) => {
-                        let errorCode = error.code;
-                        let errorMessage = error.message;
-                        console.log(errorMessage + " " + errorCode);
-                    });
-            });
+                        })
+                        .catch((error) => {
+                            let errorCode = error.code;
+                            let errorMessage = error.message;
+                            console.log(errorMessage + " " + errorCode);
+                        });
+                });
 
             /*---MENSAJES DEL CHAT PRIVADO*/
-            document.getElementById("btnEnviarMensajePrivado").addEventListener("click", sendMsjPriv);
-            let b=0;
-            let unico = userCol.where("usuario", "==", user).get()
+            document
+                .getElementById("btnEnviarMensajePrivado")
+                .addEventListener("click", sendMsjPriv);
+            document
+                .getElementById("btnVolver") 
+                .addEventListener("click", backToChat);
+            let b = 0;
+            let unico = userCol
+                .where("usuario", "==", user)
+                .get()
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         emailPrivado = doc.id;
-                        privateChat.doc(emailUser).collection(emailPrivado).orderBy("hora", "asc")
+                        privateChat
+                            .doc(emailUser)
+                            .collection(emailPrivado)
+                            .orderBy("hora", "asc")
                             .onSnapshot((querySnapshot) => {
+                                document.getElementById(
+                                    "ventanaChatPrivado"
+                                ).innerHTML = "";
                                 querySnapshot.forEach((msj) => {
                                     console.log(msj.data());
-                                    const mensajeEnviadosPrivado = document.createElement("mensajeEnviadosPrivado");
+                                    const mensajeEnviadosPrivado = document.createElement(
+                                        "mensajeEnviadosPrivado"
+                                    );
 
                                     let horasBorrar = msj.data().hora;
-                                    let obtenerNanos = msj.data().hora.nanoseconds;
+                                    let obtenerNanos = msj.data().hora
+                                        .nanoseconds;
                                     let obtenerSecs = msj.data().hora.seconds;
-                                    let nts = obtenerNanos/1000000000;
-                                    let obtenerHoras = nts + obtenerSecs;                                                       
-                                    let fechayhora = new Date(obtenerHoras * 1000);
+                                    let nts = obtenerNanos / 1000000000;
+                                    let obtenerHoras = nts + obtenerSecs;
+                                    let fechayhora = new Date(
+                                        obtenerHoras * 1000
+                                    );
                                     let stringFechaHora = fechayhora.toString();
-                                    stringFechaHora = stringFechaHora.replace(/Mon|May|03|2021|GMT-0300|hora estándar de Argentina|/g, "").replace("(", "").replace(")", "");
+                                    stringFechaHora = stringFechaHora
+                                        .replace(
+                                            /Mon|May|03|2021|GMT-0300|hora estándar de Argentina|/g,
+                                            ""
+                                        )
+                                        .replace("(", "")
+                                        .replace(")", "");
 
                                     if (nick == msj.data().id) {
-                                        b++
+                                        b++;
                                         mensajeEnviadosPrivado.innerHTML =
                                             `<div class="containerMensaje">
                                                 <div class="row">
-                                                    <p class="idMensaje col self-align-left">` + msj.data().id + `</p>
-                                                    <i class="trash far fa-trash-alt col-1 text-end" id="prash`+b+`"></i>
+                                                    <p class="idMensaje col self-align-left">` +
+                                            msj.data().id +
+                                            `</p>
+                                                    <i class="trash far fa-trash-alt col-1 text-end" id="prash` +
+                                            b +
+                                            `"></i>
                                                 </div>
-                                                <p class="Mensaje">` + msj.data().mensaje + `</p>
-                                                <p class="timeMensaje">` + stringFechaHora + `</p>
+                                                <p class="Mensaje">` +
+                                            msj.data().mensaje +
+                                            `</p>
+                                                <p class="timeMensaje">` +
+                                            stringFechaHora +
+                                            `</p>
                                             </div>`;
-                                        document.getElementById("ventanaChatPrivado").append(mensajeEnviadosPrivado);
+                                        document
+                                            .getElementById(
+                                                "ventanaChatPrivado"
+                                            )
+                                            .append(mensajeEnviadosPrivado);
                                         /*scrollDiv();*/
-                                        let prash = document.getElementById('prash'+b)
-                                        prash.addEventListener('click', ()=>{
+                                        let prash = document.getElementById(
+                                            "prash" + b
+                                        );
+                                        prash.addEventListener("click", () => {
                                             /*alertModal.show();
                                             document.getElementById('btnBorrar').addEventListener('click', ()=> {
                                                 chatMainCol.doc(doc.id).delete()
@@ -351,22 +497,31 @@ const router = (route, emailUser) => {
                                                     });
                                             });*/
                                         });
+                                        scrollDiv();
                                     } else {
                                         mensajeEnviadosPrivado.innerHTML =
                                             `<div class="containerMensaje">
                                                 <div class="row">
-                                                    <p class="idMensaje col self-align-left">` + msj.data().id + `</p>
+                                                    <p class="idMensaje col self-align-left">` +
+                                            msj.data().id +
+                                            `</p>
                                                 </div>
-                                                <p class="Mensaje">` + msj.data().mensaje + `</p>
-                                                <p class="timeMensaje">` + stringFechaHora + `</p>
+                                                <p class="Mensaje">` +
+                                            msj.data().mensaje +
+                                            `</p>
+                                                <p class="timeMensaje">` +
+                                            stringFechaHora +
+                                            `</p>
                                             </div>`;
-                                        document.getElementById("ventanaChatPrivado").append(mensajeEnviadosPrivado);
-                                        /*scrollDiv();*/
+                                        document
+                                            .getElementById(
+                                                "ventanaChatPrivado"
+                                            )
+                                            .append(mensajeEnviadosPrivado);
+                                        scrollDiv();
                                     }
-
-
                                 });
-                        });
+                            });
                     });
                 })
                 .catch((error) => {
@@ -377,8 +532,6 @@ const router = (route, emailUser) => {
                     console.log(doc.data());
                 });
             });*/
-
-
 
             break;
         default:
